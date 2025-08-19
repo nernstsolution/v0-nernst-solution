@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "info@nernstsolution.com",
+        from: "contact@nernstsolution.com",
         to: [emailTemplate.to],
         subject: emailTemplate.subject,
         html: emailTemplate.html,

@@ -1,7 +1,46 @@
+import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ProductCard } from "@/components/product-card"
 import { getAllProducts } from "@/lib/products"
+
+export const metadata: Metadata = {
+  title: "Products - Electrolyzer Research Hardware | Nernst Solution LLC",
+  description: "Explore our comprehensive range of electrolyzer research hardware including PEM and AEM test stands, single cell hardware, multi-cell assemblies, and membrane electrode assemblies.",
+  keywords: [
+    "electrolyzer products",
+    "test stand products", 
+    "research hardware products",
+    "PEM test stand",
+    "AEM test stand",
+    "single cell hardware",
+    "multi-cell hardware",
+    "membrane electrode assembly",
+    "electrolyzer testing equipment",
+    "research laboratory equipment"
+  ],
+  openGraph: {
+    title: "Products - Electrolyzer Research Hardware | Nernst Solution LLC",
+    description: "Professional electrolyzer research equipment including test stands, cell hardware, and membrane electrode assemblies for research and development.",
+    url: "https://nernstsolution.com/products",
+    images: [
+      {
+        url: "/images/1kw-test-stand.png",
+        width: 1200,
+        height: 630,
+        alt: "Nernst Solution Electrolyzer Research Hardware Products",
+      },
+    ],
+  },
+  twitter: {
+    title: "Products - Electrolyzer Research Hardware | Nernst Solution LLC",
+    description: "Professional electrolyzer research equipment including test stands, cell hardware, and membrane electrode assemblies.",
+    images: ["/images/1kw-test-stand.png"],
+  },
+  alternates: {
+    canonical: "/products",
+  },
+}
 
 export default function ProductsPage() {
   const products = getAllProducts()

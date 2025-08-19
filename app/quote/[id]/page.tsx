@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -11,17 +12,67 @@ import { getProduct } from "@/lib/products"
 import { ArrowLeft } from "lucide-react"
 
 interface QuotePageProps {
-  params: {
-    id: string
+  params: Promise<{ id: string }>
+}
+
+export async function generateMetadata({ params }: QuotePageProps): Promise<Metadata> {
+  const { id } = await params
+  const product = getProduct(id)
+
+  if (!product) {
+    return {
+      title: "Product Not Found | Nernst Solution LLC",
+      description: "The requested product could not be found.",
+    }
+  }
+
+  return {
+    title: `Request Quote - ${product.name} | Nernst Solution LLC`,
+    description: `Request a custom quote for ${product.name}. Get pricing and technical specifications for your research needs.`,
+    keywords: [
+      "quote request",
+      product.name.toLowerCase(),
+      "electrolyzer research hardware",
+      "custom pricing",
+      "research equipment quote",
+      "test stand pricing",
+      "hardware quote"
+    ],
+    openGraph: {
+      title: `Request Quote - ${product.name} | Nernst Solution LLC`,
+      description: `Request a custom quote for ${product.name}. Get pricing and technical specifications.`,
+      url: `https://nernstsolution.com/quote/${id}`,
+      images: product.images.map(image => ({
+        url: image,
+        width: 1200,
+        height: 630,
+        alt: `Quote for ${product.name}`,
+      })),
+    },
+    twitter: {
+      title: `Request Quote - ${product.name} | Nernst Solution LLC`,
+      description: `Request a custom quote for ${product.name}. Get pricing and technical specifications.`,
+      images: product.images,
+    },
+    alternates: {
+      canonical: `/quote/${id}`,
+    },
+    robots: {
+      index: false,
+      follow: true,
+    },
   }
 }
 
-export default function QuotePage({ params }: QuotePageProps) {
-  const product = getProduct(params.id)
+export default async function QuotePage({ params }: QuotePageProps) {
+  const { id } = await params
+  const product = getProduct(id)
 
   if (!product || product.transactionCategory !== "quote") {
     notFound()
   }
+
+  // TypeScript now knows product is defined after this check
 
   return (
     <div className="min-h-screen">

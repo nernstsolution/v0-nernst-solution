@@ -3,11 +3,37 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, Menu } from "lucide-react"
+import { ShoppingCart, Menu, ChevronDown, BookOpen, FileText } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
+import { useState, useRef, useEffect } from "react"
 
 export function Header() {
   const { itemCount } = useCart()
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    setIsResourcesOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsResourcesOpen(false)
+    }, 150) // Small delay to prevent flickering
+  }
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -29,6 +55,101 @@ export function Header() {
           <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">
             Products
           </Link>
+          
+          {/* Resources Dropdown */}
+          <div 
+            ref={dropdownRef}
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors">
+              <span>Resources</span>
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            
+            {isResourcesOpen && (
+              <div 
+                className="absolute top-full left-0 mt-2 w-64 bg-background border rounded-lg shadow-lg py-2 z-50"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                {/* Learning Center */}
+                <div className="px-4 py-2">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                    Learning Center
+                  </h3>
+                  <div className="space-y-1">
+                    <Link 
+                      href="/resources/cell-build-guide" 
+                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>Cell Build Guide</span>
+                    </Link>
+                    <Link 
+                      href="/resources/test-equipment-tips" 
+                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>Test Equipment Tips</span>
+                    </Link>
+                    <Link 
+                      href="/resources/hardware-maintenance" 
+                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>Hardware Maintenance</span>
+                    </Link>
+                  </div>
+                </div>
+                
+                <div className="border-t my-2"></div>
+                
+                {/* Documentation */}
+                <div className="px-4 py-2">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                    Documentation
+                  </h3>
+                  <div className="space-y-1">
+                    <Link 
+                      href="/resources/catalog" 
+                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>Product Catalog</span>
+                    </Link>
+                    <Link 
+                      href="/resources/brochures" 
+                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>Brochures</span>
+                    </Link>
+                    <Link 
+                      href="/resources/technical-specs" 
+                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>Technical Specifications</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* View All Resources Link */}
+                <div className="border-t mt-2 pt-2 px-4">
+                  <Link 
+                    href="/resources" 
+                    className="flex items-center justify-center space-x-2 px-3 py-2 text-sm font-medium text-primary hover:bg-primary/10 rounded transition-colors"
+                  >
+                    <span>View All Resources</span>
+                    <ChevronDown className="w-4 h-4 rotate-[-90deg]" />
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+          
           <Link href="/contact" className="text-sm font-medium hover:text-primary transition-colors">
             Contact
           </Link>

@@ -1,6 +1,4 @@
-"use client"
-
-import { useEffect } from "react"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -14,17 +12,58 @@ import { ArrowLeft, FileText } from "lucide-react"
 import { AddToCartButton } from "@/components/add-to-cart-button"
 
 interface ProductPageProps {
-  params: {
-    id: string
+  params: Promise<{ id: string }>
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { id } = await params
+  const product = getProduct(id)
+
+  if (!product) {
+    return {
+      title: "Product Not Found | Nernst Solution LLC",
+      description: "The requested product could not be found.",
+    }
+  }
+
+  return {
+    title: `${product.name} | Nernst Solution LLC`,
+    description: product.shortDescription,
+    keywords: [
+      product.name.toLowerCase(),
+      product.category,
+      "electrolyzer research hardware",
+      "test stand",
+      "research equipment",
+      ...product.applications.map(app => app.toLowerCase()),
+      ...product.features.map(feature => feature.toLowerCase())
+    ],
+    openGraph: {
+      title: `${product.name} | Nernst Solution LLC`,
+      description: product.shortDescription,
+      url: `https://nernstsolution.com/products/${id}`,
+      images: product.images.map(image => ({
+        url: image,
+        width: 1200,
+        height: 630,
+        alt: product.name,
+      })),
+      type: "website",
+    },
+    twitter: {
+      title: `${product.name} | Nernst Solution LLC`,
+      description: product.shortDescription,
+      images: product.images,
+    },
+    alternates: {
+      canonical: `/products/${id}`,
+    },
   }
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = getProduct(params.id)
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params
+  const product = getProduct(id)
 
   if (!product) {
     notFound()

@@ -1,8 +1,45 @@
+import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ContactForm } from "@/components/contact-form"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Mail, Phone, MapPin, Clock, Users, Award } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Contact Us - Get in Touch | Nernst Solution LLC",
+  description: "Contact Nernst Solution LLC for technical support, product information, quote requests, and partnership opportunities. Expert support for electrolyzer research hardware.",
+  keywords: [
+    "contact Nernst Solution",
+    "electrolyzer support",
+    "technical support",
+    "quote request",
+    "product information",
+    "partnership opportunities",
+    "research hardware support",
+    "electrolyzer consultation"
+  ],
+  openGraph: {
+    title: "Contact Us - Get in Touch | Nernst Solution LLC",
+    description: "Contact our team for technical support, product information, and quote requests. Expert guidance for electrolyzer research hardware.",
+    url: "https://nernstsolution.com/contact",
+    images: [
+      {
+        url: "/images/nernst-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Contact Nernst Solution LLC",
+      },
+    ],
+  },
+  twitter: {
+    title: "Contact Us - Get in Touch | Nernst Solution LLC",
+    description: "Contact our team for technical support, product information, and quote requests.",
+    images: ["/images/nernst-logo.png"],
+  },
+  alternates: {
+    canonical: "/contact",
+  },
+}
 
 export default function ContactPage() {
   return (
