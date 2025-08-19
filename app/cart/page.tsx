@@ -1,6 +1,5 @@
 "use client"
 
-import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -14,27 +13,6 @@ import { stripePromise } from "@/lib/stripe"
 import { Minus, Plus, Trash2, ArrowLeft, CreditCard } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-
-export const metadata: Metadata = {
-  title: "Shopping Cart | Nernst Solution LLC",
-  description: "Your shopping cart with electrolyzer research hardware and equipment. Secure checkout powered by Stripe.",
-  robots: {
-    index: false,
-    follow: false,
-    nocache: true,
-    googleBot: {
-      index: false,
-      follow: false,
-      noimageindex: true,
-      "max-video-preview": -1,
-      "max-image-preview": "none",
-      "max-snippet": -1,
-    },
-  },
-  alternates: {
-    canonical: "/cart",
-  },
-}
 
 export default function CartPage() {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart()
