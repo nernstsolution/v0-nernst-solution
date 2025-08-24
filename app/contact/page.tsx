@@ -68,14 +68,14 @@ export default function ContactPage() {
                   <Mail className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-sm text-muted-foreground">NernstSolution@gmail.com</p>
+                    <p className="text-sm text-muted-foreground">contact@nernstsolution.com</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <Phone className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
+                    <p className="text-sm text-muted-foreground">+1 (302) 316-5188</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -83,11 +83,9 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Address</p>
                     <p className="text-sm text-muted-foreground">
-                      Research Park
+                      Newark, Delaware
                       <br />
-                      Innovation District
-                      <br />
-                      Technology Center, Suite 200
+                      USA
                     </p>
                   </div>
                 </div>
@@ -118,7 +116,7 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Industry Expertise</p>
                     <p className="text-sm text-muted-foreground">
-                      Over 15 years of experience in electrolyzer technology and research equipment.
+                      Over 10 years of experience in electrolyzer technology and research equipment.
                     </p>
                   </div>
                 </div>
@@ -159,44 +157,6 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Additional Information */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-sans text-center">Sales Inquiries</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-muted-foreground font-serif mb-4">
-                Interested in our products? Our sales team can help you find the right equipment for your research.
-              </p>
-              <p className="text-sm font-medium">sales@nernstsolution.com</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-sans text-center">Technical Support</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-muted-foreground font-serif mb-4">
-                Need help with existing equipment? Our technical experts are ready to assist you.
-              </p>
-              <p className="text-sm font-medium">support@nernstsolution.com</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-sans text-center">Partnerships</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-muted-foreground font-serif mb-4">
-                Explore collaboration opportunities and research partnerships with our team.
-              </p>
-              <p className="text-sm font-medium">partnerships@nernstsolution.com</p>
-            </CardContent>
-          </Card>
-        </div>
       </main>
       <Footer />
     </div>

@@ -9,11 +9,11 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
             <Image
-              src="/images/nernst-logo.png"
+              src="/images/nernst-logo-blackwhite.png"
               alt="Nernst Solution LLC"
               width={200}
               height={40}
-              className="h-8 w-auto mb-4 brightness-0 invert"
+              className="h-8 w-auto mb-4"
             />
             <p className="text-primary-foreground/80 font-serif mb-4">
               Leading provider of water electrolyzer research hardware and test stands for scientific and industrial
@@ -22,7 +22,7 @@ export function Footer() {
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span className="text-sm">NernstSolution@gmail.com</span>
+                <span className="text-sm">contact@nernstsolution.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
@@ -65,12 +65,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/support" className="hover:text-accent transition-colors">
+                <Link href="/contact" className="hover:text-accent transition-colors">
                   Technical Support
                 </Link>
               </li>
               <li>
-                <Link href="/documentation" className="hover:text-accent transition-colors">
+                <Link href="/resources" className="hover:text-accent transition-colors">
                   Documentation
                 </Link>
               </li>

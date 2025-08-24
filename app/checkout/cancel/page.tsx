@@ -62,10 +62,10 @@ export default function CheckoutCancelPage() {
           <div className="mt-8 p-4 bg-muted/30 rounded-lg">
             <p className="text-sm text-muted-foreground">
               Need assistance with your purchase? Contact us at{" "}
-              <a href="mailto:NernstSolution@gmail.com" className="text-primary hover:underline">
-                NernstSolution@gmail.com
+              <a href="mailto:contact@nernstsolution.com" className="text-primary hover:underline">
+                contact@nernstsolution.com
               </a>{" "}
-              or call +1 (555) 123-4567
+              or call +1 (302) 316-5188
             </p>
           </div>
         </div>

@@ -37,6 +37,11 @@ export const metadata: Metadata = {
   authors: [{ name: "Nernst Solution LLC" }],
   creator: "Nernst Solution LLC",
   publisher: "Nernst Solution LLC",
+  icons: {
+    icon: "/images/nernst-logo-simple.png",
+    shortcut: "/images/nernst-logo-simple.png",
+    apple: "/images/nernst-logo-simple.png",
+  },
   formatDetection: {
     email: false,
     address: false,
