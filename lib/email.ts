@@ -136,7 +136,7 @@ Newsletter Subscription: ${data.newsletter ? "Yes" : "No"}
   `
 
   return {
-    to: "NernstSolution@gmail.com",
+  to: "contact@nernstsolution.com",
     subject: `Quote Request: ${data.productName} - ${data.company}`,
     html,
     text,
@@ -220,7 +220,7 @@ Newsletter Subscription: ${data.newsletter ? "Yes" : "No"}
   `
 
   return {
-    to: "NernstSolution@gmail.com",
+  to: "contact@nernstsolution.com",
     subject: `Contact Inquiry: ${data.subject} - ${data.firstName} ${data.lastName}`,
     html,
     text,

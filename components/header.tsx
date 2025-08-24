@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from "react"
 export function Header() {
   const { itemCount } = useCart()
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
@@ -63,10 +64,22 @@ export function Header() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <button className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/resources"
+              className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors cursor-pointer outline-none"
+              tabIndex={0}
+              onClick={(e) => {
+                // Allow navigation on click
+                setIsResourcesOpen(false)
+              }}
+              onMouseDown={(e) => {
+                // Prevent focus loss on click for accessibility
+                e.preventDefault()
+              }}
+            >
               <span>Resources</span>
               <ChevronDown className="w-4 h-4" />
-            </button>
+            </Link>
             
             {isResourcesOpen && (
               <div 
@@ -88,11 +101,11 @@ export function Header() {
                       <span>Cell Build Guide</span>
                     </Link>
                     <Link 
-                      href="/resources/test-equipment-tips" 
+                      href="/resources/test-equipment-maintenance-tips" 
                       className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
                     >
                       <BookOpen className="w-4 h-4" />
-                      <span>Test Equipment Tips</span>
+                      <span>Test Stand Tips</span>
                     </Link>
                     <Link 
                       href="/resources/hardware-maintenance" 
@@ -113,25 +126,11 @@ export function Header() {
                   </h3>
                   <div className="space-y-1">
                     <Link 
-                      href="/resources/catalog" 
-                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
-                    >
-                      <FileText className="w-4 h-4" />
-                      <span>Product Catalog</span>
-                    </Link>
-                    <Link 
-                      href="/resources/brochures" 
+                      href="/contact" 
                       className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
                     >
                       <FileText className="w-4 h-4" />
                       <span>Brochures</span>
-                    </Link>
-                    <Link 
-                      href="/resources/technical-specs" 
-                      className="flex items-center space-x-2 px-2 py-1 text-sm hover:bg-accent rounded transition-colors"
-                    >
-                      <FileText className="w-4 h-4" />
-                      <span>Technical Specifications</span>
                     </Link>
                   </div>
                 </div>
@@ -166,10 +165,39 @@ export function Header() {
               )}
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" className="md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            aria-label="Open menu"
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+          >
             <Menu className="h-5 w-5" />
           </Button>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 bg-black/40 md:hidden" onClick={() => setIsMobileMenuOpen(false)}>
+            <div
+              className="absolute right-4 top-16 w-56 bg-background border rounded-lg shadow-lg py-4 px-4 flex flex-col space-y-4"
+              onClick={e => e.stopPropagation()}
+            >
+              <Link href="/" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                Home
+              </Link>
+              <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                Products
+              </Link>
+              <Link href="/resources" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                Resources
+              </Link>
+              <Link href="/contact" className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                Contact
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   )
