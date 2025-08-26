@@ -11,7 +11,7 @@ export default function QuoteSuccessPage() {
           <Card>
             <CardHeader className="text-center">
               <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="h-8 w-8 text-green-600" />
+                <CheckCircle className="h-12 w-12 text-green-600" />
               </div>
               <CardTitle className="text-2xl font-sans">Quote Request Submitted!</CardTitle>
             </CardHeader>
@@ -34,14 +34,14 @@ export default function QuoteSuccessPage() {
                 </ul>
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              {/* <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <FileText className="h-4 w-4 text-blue-600" />
                   <span className="font-semibold text-blue-900">Reference Number</span>
                 </div>
                 <p className="text-blue-800 font-mono text-lg">QR-{Date.now().toString().slice(-6)}</p>
                 <p className="text-xs text-blue-600 mt-1">Please reference this number in future communications</p>
-              </div>
+              </div> */}
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild variant="outline">

@@ -103,6 +103,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" })
+    localStorage.removeItem("nernst-cart")
   }
 
   const total = calculateCartTotal(state.items)

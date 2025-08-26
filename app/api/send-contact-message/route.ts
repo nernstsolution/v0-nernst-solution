@@ -1,5 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createContactEmail, type ContactFormData } from "@/lib/email"
+import {
+  createContactEmail,
+  createContactConfirmationEmail,
+  generateInquiryReference,
+  sendEmail,
+  type ContactFormData,
+} from "@/lib/email"
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,43 +16,45 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email service not configured" }, { status: 500 })
     }
 
-    // Create email template
-    const emailTemplate = createContactEmail(data)
+    const inquiryReference = generateInquiryReference()
+    const dataWithReference = { ...data, inquiryReference }
 
-    console.log("[v0] Sending contact email to:", emailTemplate.to)
+    console.log("[v0] Processing contact inquiry with reference:", inquiryReference)
 
-    // Send email using Resend
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "info@nernstsolution.com",
-        to: [emailTemplate.to],
-        subject: emailTemplate.subject,
-        html: emailTemplate.html,
-        text: emailTemplate.text,
-      }),
-    })
+    const customerEmail = createContactConfirmationEmail(dataWithReference)
+    const customerResult = await sendEmail(customerEmail)
 
-    const result = await response.json()
-
-    if (!response.ok) {
-      console.error("[v0] Resend API error:", result)
-      throw new Error(`Resend API error: ${result.message || "Unknown error"}`)
+    if (!customerResult.success) {
+      console.error("[v0] Failed to send customer confirmation email:", customerResult.error)
+    } else {
+      console.log("[v0] Customer confirmation email sent:", customerResult.id)
     }
 
-    console.log("[v0] Email sent successfully:", result.id)
+    const companyEmail = createContactEmail(dataWithReference)
+    const companyResult = await sendEmail(companyEmail)
+
+    if (!companyResult.success) {
+      console.error("[v0] Failed to send company notification email:", companyResult.error)
+      return NextResponse.json(
+        {
+          error: "Failed to send contact message",
+          details: companyResult.error,
+        },
+        { status: 500 },
+      )
+    }
+
+    console.log("[v0] Contact inquiry processed successfully:", inquiryReference)
 
     return NextResponse.json({
       success: true,
       message: "Contact message sent successfully",
-      emailId: result.id,
+      inquiryReference,
+      customerEmailId: customerResult.id,
+      companyEmailId: companyResult.id,
     })
   } catch (error) {
-    console.error("[v0] Error sending contact email:", error)
+    console.error("[v0] Error processing contact message:", error)
     return NextResponse.json(
       {
         error: "Failed to send contact message",

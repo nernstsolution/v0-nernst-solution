@@ -1,5 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createQuoteRequestEmail, type QuoteRequestData } from "@/lib/email"
+import {
+  createQuoteRequestEmail,
+  createQuoteConfirmationEmail,
+  generateQuoteReference,
+  sendEmail,
+  type QuoteRequestData,
+} from "@/lib/email"
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,43 +16,45 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email service not configured" }, { status: 500 })
     }
 
-    // Create email template
-    const emailTemplate = createQuoteRequestEmail(data)
+    const quoteReference = generateQuoteReference()
+    const dataWithReference = { ...data, quoteReference }
 
-    console.log("[v0] Sending quote request email to:", emailTemplate.to)
+    console.log("[v0] Processing quote request with reference:", quoteReference)
 
-    // Send email using Resend (requires RESEND_API_KEY environment variable)
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "contact@nernstsolution.com",
-        to: [emailTemplate.to],
-        subject: emailTemplate.subject,
-        html: emailTemplate.html,
-        text: emailTemplate.text,
-      }),
-    })
+    const customerEmail = createQuoteConfirmationEmail(dataWithReference)
+    const customerResult = await sendEmail(customerEmail)
 
-    const result = await response.json()
-
-    if (!response.ok) {
-      console.error("[v0] Resend API error:", result)
-      throw new Error(`Resend API error: ${result.message || "Unknown error"}`)
+    if (!customerResult.success) {
+      console.error("[v0] Failed to send customer confirmation email:", customerResult.error)
+    } else {
+      console.log("[v0] Customer confirmation email sent:", customerResult.id)
     }
 
-    console.log("[v0] Quote request email sent successfully:", result.id)
+    const companyEmail = createQuoteRequestEmail(dataWithReference)
+    const companyResult = await sendEmail(companyEmail)
+
+    if (!companyResult.success) {
+      console.error("[v0] Failed to send company notification email:", companyResult.error)
+      return NextResponse.json(
+        {
+          error: "Failed to send quote request",
+          details: companyResult.error,
+        },
+        { status: 500 },
+      )
+    }
+
+    console.log("[v0] Quote request processed successfully:", quoteReference)
 
     return NextResponse.json({
       success: true,
       message: "Quote request sent successfully",
-      emailId: result.id,
+      quoteReference,
+      customerEmailId: customerResult.id,
+      companyEmailId: companyResult.id,
     })
   } catch (error) {
-    console.error("[v0] Error sending quote request email:", error)
+    console.error("[v0] Error processing quote request:", error)
     return NextResponse.json(
       {
         error: "Failed to send quote request",

@@ -1,18 +1,36 @@
+"use client"
+
+import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CheckCircle, Package, Mail } from "lucide-react"
+import { useCart } from "@/contexts/cart-context"
 
 export default function CheckoutSuccessPage() {
+  const { clearCart } = useCart()
+  const hasClearedCart = useRef(false)
+
+  // Clear the cart only once when the page loads (checkout completed successfully)
+  useEffect(() => {
+    if (!hasClearedCart.current) {
+      clearCart()
+      hasClearedCart.current = true
+    }
+  }, []) // Empty dependency array - only run once
+
   return (
     <div className="min-h-screen">
       <Header />
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-2xl mx-auto text-center">
           <div className="mb-8">
-            <CheckCircle className="h-16 w-16 text-accent mx-auto mb-4" />
+            {/* <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" /> */}
+              <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="h-12 w-12 text-green-600" />
+              </div>
             <h1 className="text-3xl font-bold font-sans text-foreground mb-4">Order Confirmed!</h1>
             <p className="text-xl text-muted-foreground font-serif">
               Thank you for your purchase. Your order has been successfully processed.
