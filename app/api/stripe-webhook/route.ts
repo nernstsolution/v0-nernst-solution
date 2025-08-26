@@ -8,9 +8,7 @@ import {
   type OrderData,
 } from "@/lib/email"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
-})
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 
@@ -54,14 +52,14 @@ export async function POST(request: NextRequest) {
             price: (item.price?.unit_amount || 0) / 100,
           })) || [],
         total: (session.amount_total || 0) / 100,
-        shippingAddress: session.shipping_details?.address
+        shippingAddress: session.collected_information?.shipping_details?.address
           ? {
-              line1: session.shipping_details.address.line1 || "",
-              line2: session.shipping_details.address.line2 || undefined,
-              city: session.shipping_details.address.city || "",
-              state: session.shipping_details.address.state || "",
-              postal_code: session.shipping_details.address.postal_code || "",
-              country: session.shipping_details.address.country || "",
+              line1: session.collected_information?.shipping_details?.address?.line1 || "",
+              line2: session.collected_information?.shipping_details?.address?.line2 || undefined,
+              city: session.collected_information?.shipping_details?.address?.city || "",
+              state: session.collected_information?.shipping_details?.address?.state || "",
+              postal_code: session.collected_information?.shipping_details?.address?.postal_code || "",
+              country: session.collected_information?.shipping_details?.address?.country || "",
             }
           : undefined,
       }

@@ -661,20 +661,17 @@ Nernst Solution LLC Team
 
 export function generateOrderNumber(): string {
   const timestamp = Date.now().toString(36).toUpperCase()
-  const random = Math.random().toString(36).substring(2, 6).toUpperCase()
-  return `ORD-${timestamp}-${random}`
+  return `ORD-${timestamp}`
 }
 
 export function generateQuoteReference(): string {
   const timestamp = Date.now().toString(36).toUpperCase()
-  const random = Math.random().toString(36).substring(2, 6).toUpperCase()
-  return `QUO-${timestamp}-${random}`
+  return `QUO-${timestamp}`
 }
 
 export function generateInquiryReference(): string {
   const timestamp = Date.now().toString(36).toUpperCase()
-  const random = Math.random().toString(36).substring(2, 6).toUpperCase()
-  return `INQ-${timestamp}-${random}`
+  return `INQ-${timestamp}`
 }
 
 export async function sendEmail(template: EmailTemplate): Promise<{ success: boolean; id?: string; error?: string }> {

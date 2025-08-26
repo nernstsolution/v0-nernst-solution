@@ -12,7 +12,10 @@ export default function CheckoutSuccessPage() {
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-2xl mx-auto text-center">
           <div className="mb-8">
-            <CheckCircle className="h-16 w-16 text-accent mx-auto mb-4" />
+            {/* <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" /> */}
+              <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="h-12 w-12 text-green-600" />
+              </div>
             <h1 className="text-3xl font-bold font-sans text-foreground mb-4">Order Confirmed!</h1>
             <p className="text-xl text-muted-foreground font-serif">
               Thank you for your purchase. Your order has been successfully processed.
