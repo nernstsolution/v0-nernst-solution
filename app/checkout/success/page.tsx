@@ -1,11 +1,26 @@
+"use client"
+
+import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CheckCircle, Package, Mail } from "lucide-react"
+import { useCart } from "@/contexts/cart-context"
 
 export default function CheckoutSuccessPage() {
+  const { clearCart } = useCart()
+  const hasClearedCart = useRef(false)
+
+  // Clear the cart only once when the page loads (checkout completed successfully)
+  useEffect(() => {
+    if (!hasClearedCart.current) {
+      clearCart()
+      hasClearedCart.current = true
+    }
+  }, []) // Empty dependency array - only run once
+
   return (
     <div className="min-h-screen">
       <Header />
