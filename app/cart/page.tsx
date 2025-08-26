@@ -9,6 +9,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { useCart } from "@/contexts/cart-context"
 import { formatPrice } from "@/lib/cart"
+import { stripePromise } from "@/lib/stripe"
 import { Minus, Plus, Trash2, ArrowLeft, CreditCard } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
@@ -23,8 +24,6 @@ export default function CartPage() {
 
     setIsLoading(true)
     try {
-      console.log("[v0] Starting checkout process")
-
       // Create checkout session
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
@@ -44,48 +43,15 @@ export default function CartPage() {
         }),
       })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+      const { sessionId } = await response.json()
 
-      const data = await response.json()
-      console.log("[v0] Checkout session created:", data)
-
-      if (data.error) {
-        throw new Error(data.error)
-      }
-
-      const { sessionId, checkoutUrl } = data
-
-      if (checkoutUrl) {
-        console.log("[v0] Opening checkout in new window")
-        const checkoutWindow = window.open(checkoutUrl, "_blank", "noopener,noreferrer")
-
-        if (!checkoutWindow) {
-          // If popup was blocked, try direct navigation
-          console.log("[v0] Popup blocked, trying direct navigation")
-          try {
-            window.location.assign(checkoutUrl)
-          } catch (assignError) {
-            console.log("[v0] Direct navigation failed, creating link")
-            // Create a temporary link and click it
-            const link = document.createElement("a")
-            link.href = checkoutUrl
-            link.target = "_blank"
-            link.rel = "noopener noreferrer"
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-          }
-        } else {
-          // Show success message that checkout opened in new tab
-          toast({
-            title: "Checkout Opened",
-            description: "Please complete your payment in the new tab that opened.",
-          })
+      // Redirect to Stripe Checkout
+      const stripe = await stripePromise
+      if (stripe) {
+        const { error } = await stripe.redirectToCheckout({ sessionId })
+        if (error) {
+          throw new Error(error.message)
         }
-      } else {
-        throw new Error("No checkout URL available")
       }
     } catch (error) {
       console.error("Checkout error:", error)
