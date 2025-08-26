@@ -24,6 +24,8 @@ export default function CartPage() {
 
     setIsLoading(true)
     try {
+      console.log("[v0] Starting checkout process")
+
       // Create checkout session
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
@@ -43,15 +45,37 @@ export default function CartPage() {
         }),
       })
 
-      const { sessionId } = await response.json()
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-      // Redirect to Stripe Checkout
+      const data = await response.json()
+      console.log("[v0] Checkout session created:", data)
+
+      if (data.error) {
+        throw new Error(data.error)
+      }
+
+      const { sessionId, checkoutUrl } = data
+
       const stripe = await stripePromise
-      if (stripe) {
+      if (stripe && sessionId) {
+        console.log("[v0] Attempting Stripe redirect")
         const { error } = await stripe.redirectToCheckout({ sessionId })
         if (error) {
-          throw new Error(error.message)
+          console.log("[v0] Stripe redirect failed, using fallback:", error.message)
+          // Fallback to direct URL redirect
+          if (checkoutUrl) {
+            window.location.href = checkoutUrl
+          } else {
+            throw new Error("No checkout URL available")
+          }
         }
+      } else if (checkoutUrl) {
+        console.log("[v0] Using direct URL redirect")
+        window.location.href = checkoutUrl
+      } else {
+        throw new Error("Unable to redirect to checkout")
       }
     } catch (error) {
       console.error("Checkout error:", error)
