@@ -9,7 +9,6 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { useCart } from "@/contexts/cart-context"
 import { formatPrice } from "@/lib/cart"
-import { stripePromise } from "@/lib/stripe"
 import { Minus, Plus, Trash2, ArrowLeft, CreditCard } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
@@ -58,24 +57,35 @@ export default function CartPage() {
 
       const { sessionId, checkoutUrl } = data
 
-      const stripe = await stripePromise
-      if (stripe && sessionId) {
-        console.log("[v0] Attempting Stripe redirect")
-        const { error } = await stripe.redirectToCheckout({ sessionId })
-        if (error) {
-          console.log("[v0] Stripe redirect failed, using fallback:", error.message)
-          // Fallback to direct URL redirect
-          if (checkoutUrl) {
-            window.location.href = checkoutUrl
-          } else {
-            throw new Error("No checkout URL available")
+      if (checkoutUrl) {
+        console.log("[v0] Opening checkout in new window")
+        const checkoutWindow = window.open(checkoutUrl, "_blank", "noopener,noreferrer")
+
+        if (!checkoutWindow) {
+          // If popup was blocked, try direct navigation
+          console.log("[v0] Popup blocked, trying direct navigation")
+          try {
+            window.location.assign(checkoutUrl)
+          } catch (assignError) {
+            console.log("[v0] Direct navigation failed, creating link")
+            // Create a temporary link and click it
+            const link = document.createElement("a")
+            link.href = checkoutUrl
+            link.target = "_blank"
+            link.rel = "noopener noreferrer"
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
           }
+        } else {
+          // Show success message that checkout opened in new tab
+          toast({
+            title: "Checkout Opened",
+            description: "Please complete your payment in the new tab that opened.",
+          })
         }
-      } else if (checkoutUrl) {
-        console.log("[v0] Using direct URL redirect")
-        window.location.href = checkoutUrl
       } else {
-        throw new Error("Unable to redirect to checkout")
+        throw new Error("No checkout URL available")
       }
     } catch (error) {
       console.error("Checkout error:", error)
