@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getProduct } from "@/lib/products"
@@ -35,14 +36,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       "electrolyzer research hardware",
       "test stand",
       "research equipment",
-      ...product.applications.map(app => app.toLowerCase()),
-      ...product.features.map(feature => feature.toLowerCase())
+      ...product.applications.map((app) => app.toLowerCase()),
+      ...product.features.map((feature) => feature.toLowerCase()),
     ],
     openGraph: {
       title: `${product.name} | Nernst Solution LLC`,
       description: product.shortDescription,
       url: `https://nernstsolution.com/products/${id}`,
-      images: product.images.map(image => ({
+      images: product.images.map((image) => ({
         url: image,
         width: 1200,
         height: 630,
@@ -97,22 +98,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="aspect-square relative overflow-hidden rounded-lg border">
-              <Image
-                src={product.images[0] || "/placeholder.svg"}
-                alt={product.name}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            <Carousel className="w-full max-w-lg mx-auto">
+              <CarouselContent>
+                {product.images.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <div className="aspect-square relative overflow-hidden rounded-lg border">
+                      <Image
+                        src={image || "/placeholder.svg"}
+                        alt={`${product.name} - Image ${index + 1}`}
+                        fill
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              {product.images.length > 1 && (
+                <>
+                  <CarouselPrevious className="left-2" />
+                  <CarouselNext className="right-2" />
+                </>
+              )}
+            </Carousel>
+
+            {/* Thumbnail Navigation */}
             {product.images.length > 1 && (
-              <div className="grid grid-cols-3 gap-4">
-                {product.images.slice(1).map((image, index) => (
-                  <div key={index} className="aspect-square relative overflow-hidden rounded-lg border">
+              <div className="flex justify-center gap-2 mt-4">
+                {product.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="w-16 h-16 relative overflow-hidden rounded border cursor-pointer hover:border-primary transition-colors"
+                  >
                     <Image
                       src={image || "/placeholder.svg"}
-                      alt={`${product.name} - Image ${index + 2}`}
+                      alt={`${product.name} thumbnail ${index + 1}`}
                       fill
                       className="object-cover"
                     />

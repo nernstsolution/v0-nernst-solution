@@ -36,7 +36,10 @@ export default function CartPage() {
             name: item.name,
             price: item.price,
             quantity: item.quantity,
-            image: `${window.location.origin}${item.image}`,
+            image:
+              item.images && item.images.length > 0
+                ? `${window.location.origin}${item.images[0]}`
+                : `${window.location.origin}${item.image || "/placeholder.svg"}`,
           })),
           successUrl: `${window.location.origin}/checkout/success`,
           cancelUrl: `${window.location.origin}/checkout/cancel`,

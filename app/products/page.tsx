@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: "https://nernstsolution.com/products",
     images: [
       {
-        url: "/images/1kw-test-stand.png",
+  url: "/images/600w-pem-test-stand-1.png",
         width: 1200,
         height: 630,
         alt: "Nernst Solution Electrolyzer Research Hardware Products",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Products - Electrolyzer Research Hardware | Nernst Solution LLC",
     description: "Professional electrolyzer research equipment including test stands, cell hardware, and membrane electrode assemblies.",
-    images: ["/images/1kw-test-stand.png"],
+  images: ["/images/600w-pem-test-stand-1.png"],
   },
   alternates: {
     canonical: "/products",
