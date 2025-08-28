@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
         item.images && item.images.length > 0
           ? item.images[0].startsWith("http")
             ? item.images[0]
-            : `${process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com"}${item.images[0]}`
+            : `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.nernstsolution.com"}${item.images[0]}`
           : null
 
       return {
