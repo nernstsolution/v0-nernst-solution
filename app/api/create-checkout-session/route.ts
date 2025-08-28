@@ -8,20 +8,29 @@ export async function POST(request: NextRequest) {
     const { items, successUrl, cancelUrl } = await request.json()
 
     // Create line items for Stripe
-    const lineItems = items.map((item: any) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.name,
-          images: item.image ? [item.image] : [],
-          metadata: {
-            product_id: item.id,
+    const lineItems = items.map((item: any) => {
+      const imageUrl =
+        item.images && item.images.length > 0
+          ? item.images[0].startsWith("http")
+            ? item.images[0]
+            : `${process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com"}${item.images[0]}`
+          : null
+
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name,
+            images: imageUrl ? [imageUrl] : [],
+            metadata: {
+              product_id: item.id,
+            },
           },
+          unit_amount: Math.round(item.price * 100), // Convert to cents
         },
-        unit_amount: Math.round(item.price * 100), // Convert to cents
-      },
-      quantity: item.quantity,
-    }))
+        quantity: item.quantity,
+      }
+    })
 
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
