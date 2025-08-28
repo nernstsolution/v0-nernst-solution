@@ -13,8 +13,8 @@ export interface Product {
 }
 
 export const products: Record<string, Product> = {
-  "1kw-pem-test-stand": {
-    id: "1kw-pem-test-stand",
+  "600w-pem-test-stand": {
+  id: "600w-pem-test-stand",
   name: "600 W PEM Electrolyzer Test Stand",
     category: "test-stand",
     transactionCategory: "quote",
@@ -43,7 +43,7 @@ export const products: Record<string, Product> = {
       "Remote monitoring capabilities",
       "Modular design for easy maintenance",
     ],
-    images: ["/images/1kw-test-stand.png"],
+  images: ["/images/600w-pem-test-stand-1.png","/images/600w-pem-test-stand-2.png"],
     applications: [
       "PEM electrolyzer development",
       "Performance characterization",
@@ -82,7 +82,7 @@ export const products: Record<string, Product> = {
       "Data export capabilities",
       "User-friendly interface",
     ],
-    images: ["/images/600w-test-stand-1.png", "/images/600w-test-stand-2.png"],
+    images: ["/images/600w-aem-test-stand-1.png", "/images/600w-aem-test-stand-2.png"],
     applications: [
       "AEM electrolyzer research",
       "Alkaline electrolysis studies",
@@ -121,7 +121,7 @@ export const products: Record<string, Product> = {
       "Standardized connections",
       "Research-grade precision",
     ],
-    images: ["/images/single-cell-hardware.png"],
+    images: ["/images/single-cell-hardware-1.png","/images/single-cell-hardware-2.png"],
     applications: [
       "Single cell testing",
       "MEA characterization",
@@ -179,9 +179,9 @@ export const products: Record<string, Product> = {
     fullDescription:
       "Our Membrane Electrode Assemblies (MEAs) are manufactured using state-of-the-art processes and premium materials to ensure consistent, high-performance operation. Each MEA undergoes rigorous quality control testing to guarantee optimal electrochemical performance and durability. These assemblies are compatible with both our single-cell and multi-cell hardware systems.",
     specifications: {
-      "Membrane Type": "Nafion 117",
+      "Membrane Type": "Nafion 115",
       "Membrane Thickness": "180 μm",
-      "Catalyst Loading": "2 mg/cm² (anode), 0.5 mg/cm² (cathode)",
+      "Catalyst Loading": "1 mg/cm² (anode), 0.4 mg/cm² (cathode)",
       "Active Area": "25 cm²",
       "Operating Temperature": "Up to 80°C",
       "Operating Pressure": "Up to 30 bar",
@@ -199,7 +199,7 @@ export const products: Record<string, Product> = {
       "Research-grade specifications",
       "Compatible with standard hardware",
     ],
-    images: ["/images/membrane-electrode-assembly.jpg"],
+    images: ["/images/membrane-electrode-assembly-1.jpg","/images/membrane-electrode-assembly-2.jpg"],
     applications: [
       "Electrolyzer testing",
       "Performance evaluation",
