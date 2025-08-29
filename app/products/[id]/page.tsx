@@ -11,6 +11,32 @@ import { Footer } from "@/components/footer"
 import { getProduct } from "@/lib/products"
 import { ArrowLeft, FileText } from "lucide-react"
 import { AddToCartButton } from "@/components/add-to-cart-button"
+import { MEAPerformanceChart } from "@/components/mea-performance-chart"
+
+const nernst_mea_data = [
+  { j: 0.1, V: 1.453, name: "0.1" },
+  { j: 0.5, V: 1.542, name: "0.5" },
+  { j: 1.0, V: 1.617, name: "1.0" },
+  { j: 2.0, V: 1.754, name: "2.0" },
+  { j: 3.0, V: 1.868, name: "3.0" },
+  { j: 4.0, V: 1.987, name: "4.0" },
+]
+
+const nrel_mea_data = [
+  { j: 0.1, V: 1.479, name: "0.1" },
+  { j: 0.5, V: 1.56, name: "0.5" },
+  { j: 1.0, V: 1.633, name: "1.0" },
+  { j: 2.0, V: 1.763, name: "2.0" },
+  { j: 3.0, V: 1.886, name: "3.0" },
+  { j: 4.0, V: 2.005, name: "4.0" },
+]
+
+const combinedData = nernst_mea_data.map((nernst, index) => ({
+  j: nernst.j,
+  name: nernst.name,
+  "Nernst MEA": nernst.V,
+  "NREL Standard MEA": nrel_mea_data[index].V,
+}))
 
 interface ProductPageProps {
   params: Promise<{ id: string }>
@@ -232,6 +258,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </CardContent>
           </Card>
         </div>
+
+        {/* MEA Performance Chart - only show for MEA product */}
+        {product.id === "membrane-electrode-assembly" && (
+          <div className="mt-16">
+            <MEAPerformanceChart />
+          </div>
+        )}
 
         {/* Related Products */}
         <div className="mt-16">
