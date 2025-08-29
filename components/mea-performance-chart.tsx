@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { useEffect, useState } from "react"
 
 const nernst_mea_data = [
   { j: 0.1, V: 1.453 },
@@ -28,6 +29,33 @@ const combinedData = nernst_mea_data.map((nernst, index) => ({
 }))
 
 export function MEAPerformanceChart() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    console.log("[v0] MEA Performance Chart component mounted")
+    console.log("[v0] Combined data:", combinedData)
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    console.log("[v0] Chart not yet mounted, showing loading state")
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="font-sans">Performance Comparison</CardTitle>
+          <p className="text-sm text-muted-foreground">Loading chart...</p>
+        </CardHeader>
+        <CardContent>
+          <div className="h-96 w-full flex items-center justify-center">
+            <p>Loading performance chart...</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  console.log("[v0] Rendering chart with mounted state")
+
   return (
     <Card>
       <CardHeader>
@@ -37,7 +65,7 @@ export function MEAPerformanceChart() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="h-96 w-full">
+        <div className="h-96 w-full" style={{ width: "100%", height: "384px" }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={combinedData}
@@ -89,6 +117,11 @@ export function MEAPerformanceChart() {
             </LineChart>
           </ResponsiveContainer>
         </div>
+
+        <div className="mt-2 text-xs text-blue-600">
+          Debug: Chart mounted = {isMounted ? "true" : "false"}, Data points = {combinedData.length}
+        </div>
+
         <div className="mt-4 text-xs text-muted-foreground space-y-1">
           <p>
             <strong>Test Conditions:</strong>
