@@ -11,7 +11,7 @@ import { Footer } from "@/components/footer"
 import { getProduct } from "@/lib/products"
 import { ArrowLeft, FileText } from "lucide-react"
 import { AddToCartButton } from "@/components/add-to-cart-button"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { MEAPerformanceChart } from "@/components/mea-performance-chart"
 
 const nernst_mea_data = [
   { j: 0.1, V: 1.453, name: "0.1" },
@@ -262,76 +262,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* MEA Performance Chart - only show for MEA product */}
         {product.id === "membrane-electrode-assembly" && (
           <div className="mt-16">
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-sans">Performance Comparison</CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Polarization curve comparison between Nernst MEA and NREL standard MEA
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="h-96 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={combinedData}
-                      margin={{
-                        top: 20,
-                        right: 30,
-                        left: 20,
-                        bottom: 60,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                      <XAxis
-                        dataKey="j"
-                        label={{ value: "Current Density (A/cm²)", position: "insideBottom", offset: -10 }}
-                        className="text-xs"
-                      />
-                      <YAxis
-                        domain={[1.4, 2.1]}
-                        label={{ value: "Voltage (V)", angle: -90, position: "insideLeft" }}
-                        className="text-xs"
-                      />
-                      <Tooltip
-                        formatter={(value: number, name: string) => [`${value.toFixed(3)} V`, name]}
-                        labelFormatter={(label) => `Current Density: ${label} A/cm²`}
-                        contentStyle={{
-                          backgroundColor: "hsl(var(--card))",
-                          border: "1px solid hsl(var(--border))",
-                          borderRadius: "6px",
-                        }}
-                      />
-                      <Legend />
-                      <Line
-                        type="monotone"
-                        dataKey="Nernst MEA"
-                        stroke="hsl(var(--primary))"
-                        strokeWidth={2}
-                        dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
-                        activeDot={{ r: 6, stroke: "hsl(var(--primary))", strokeWidth: 2 }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="NREL Standard MEA"
-                        stroke="hsl(var(--muted-foreground))"
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                        dot={{ fill: "hsl(var(--muted-foreground))", strokeWidth: 2, r: 4 }}
-                        activeDot={{ r: 6, stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-4 text-xs text-muted-foreground space-y-1">
-                  <p>
-                    <strong>Test Conditions:</strong>
-                  </p>
-                  <p>• Active area: 25 cm²</p>
-                  <p>• Temperature: 80°C</p>
-                  <p>• Pressure: Ambient</p>
-                </div>
-              </CardContent>
-            </Card>
+            <MEAPerformanceChart />
           </div>
         )}
 
