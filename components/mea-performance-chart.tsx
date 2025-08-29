@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts"
 import { useEffect, useState } from "react"
 
 const nernst_mea_data = [
@@ -65,57 +65,57 @@ export function MEAPerformanceChart() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="h-96 w-full" style={{ width: "100%", height: "384px" }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={combinedData}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 60,
+        <div className="w-full overflow-x-auto">
+          <LineChart
+            width={600}
+            height={300}
+            data={combinedData}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 60,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+            <XAxis
+              dataKey="j"
+              label={{ value: "Current Density (A/cm²)", position: "insideBottom", offset: -10 }}
+              className="text-xs"
+            />
+            <YAxis
+              domain={[1.4, 2.1]}
+              label={{ value: "Voltage (V)", angle: -90, position: "insideLeft" }}
+              className="text-xs"
+            />
+            <Tooltip
+              formatter={(value: number, name: string) => [`${value.toFixed(3)} V`, name]}
+              labelFormatter={(label) => `Current Density: ${label} A/cm²`}
+              contentStyle={{
+                backgroundColor: "hsl(var(--card))",
+                border: "1px solid hsl(var(--border))",
+                borderRadius: "6px",
               }}
-            >
-              <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis
-                dataKey="j"
-                label={{ value: "Current Density (A/cm²)", position: "insideBottom", offset: -10 }}
-                className="text-xs"
-              />
-              <YAxis
-                domain={[1.4, 2.1]}
-                label={{ value: "Voltage (V)", angle: -90, position: "insideLeft" }}
-                className="text-xs"
-              />
-              <Tooltip
-                formatter={(value: number, name: string) => [`${value.toFixed(3)} V`, name]}
-                labelFormatter={(label) => `Current Density: ${label} A/cm²`}
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "6px",
-                }}
-              />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="Nernst MEA"
-                stroke="hsl(var(--primary))"
-                strokeWidth={2}
-                dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: "hsl(var(--primary))", strokeWidth: 2 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="NREL Standard MEA"
-                stroke="hsl(var(--muted-foreground))"
-                strokeWidth={2}
-                strokeDasharray="5 5"
-                dot={{ fill: "hsl(var(--muted-foreground))", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+            />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="Nernst MEA"
+              stroke="hsl(var(--primary))"
+              strokeWidth={2}
+              dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: "hsl(var(--primary))", strokeWidth: 2 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="NREL Standard MEA"
+              stroke="hsl(var(--muted-foreground))"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              dot={{ fill: "hsl(var(--muted-foreground))", strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 }}
+            />
+          </LineChart>
         </div>
 
         <div className="mt-2 text-xs text-blue-600">
