@@ -108,13 +108,10 @@ export function MEAPerformanceChart() {
                   dataKey="j"
                   type="number"
                   domain={[0, 4.5]}
-                  interval={0}
-                  tickCount={10}
                   tickFormatter={(value) => value.toFixed(1)}
                   tick={{ fontSize: 12 }}
                   label={{ value: "Current Density (A/cm²)", position: "insideBottom", offset: -10 }}
                   className="text-xs"
-                  ticks={[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5]}
                 />
                 <YAxis
                   domain={[1.2, 2.2]}
@@ -152,19 +149,19 @@ export function MEAPerformanceChart() {
                 <Line
                   type="monotone"
                   dataKey="Nernst MEA"
-                  stroke="#5b90b3"
+                  stroke="#1c6fab"
                   strokeWidth={3}
-                  dot={{ fill: "#5b90b3", stroke: "#fff", strokeWidth: 1, r: 5 }}
-                  activeDot={{ r: 7, stroke: "#5b90b3", strokeWidth: 2 }}
+                  dot={{ fill: "#1c6fab", stroke: "#fff", strokeWidth: 1, r: 5 }}
+                  activeDot={{ r: 7, stroke: "#1c6fab", strokeWidth: 2 }}
                   connectNulls={true}
                 />
                 <Line
                   type="monotone"
                   dataKey="NREL Standard MEA"
-                  stroke="#f8b98b"
+                  stroke="#ff6e61"
                   strokeWidth={3}
-                  dot={{ fill: "#f8b98b", stroke: "#fff", strokeWidth: 1, r: 5 }}
-                  activeDot={{ r: 7, stroke: "#f8b98b", strokeWidth: 2 }}
+                  dot={{ fill: "#ff6e61", stroke: "#fff", strokeWidth: 1, r: 5 }}
+                  activeDot={{ r: 7, stroke: "#ff6e61", strokeWidth: 2 }}
                   connectNulls={true}
                 />
               </LineChart>
@@ -188,13 +185,10 @@ export function MEAPerformanceChart() {
                   dataKey="j"
                   type="number"
                   domain={[0, 4.5]}
-                  interval={0}
-                  tickCount={10}
                   tickFormatter={(value) => value.toFixed(1)}
                   tick={{ fontSize: 12 }}
                   label={{ value: "Current Density (A/cm²)", position: "insideBottom", offset: -10 }}
                   className="text-xs"
-                  ticks={[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5]}
                 />
                 <YAxis
                   domain={[1.2, 2.2]}
@@ -232,19 +226,19 @@ export function MEAPerformanceChart() {
                 <Line
                   type="monotone"
                   dataKey="Nernst MEA (IR Free)"
-                  stroke="#5b90b3"
+                  stroke="#1c6fab"
                   strokeWidth={3}
-                  dot={{ fill: "#5b90b3", stroke: "#fff", strokeWidth: 1, r: 5 }}
-                  activeDot={{ r: 7, stroke: "#5b90b3", strokeWidth: 2 }}
+                  dot={{ fill: "#1c6fab", stroke: "#fff", strokeWidth: 1, r: 5 }}
+                  activeDot={{ r: 7, stroke: "#1c6fab", strokeWidth: 2 }}
                   connectNulls={true}
                 />
                 <Line
                   type="monotone"
                   dataKey="NREL Standard MEA (IR Free)"
-                  stroke="#f8b98b"
+                  stroke="#ff6e61"
                   strokeWidth={3}
-                  dot={{ fill: "#f8b98b", stroke: "#fff", strokeWidth: 1, r: 5 }}
-                  activeDot={{ r: 7, stroke: "#f8b98b", strokeWidth: 2 }}
+                  dot={{ fill: "#ff6e61", stroke: "#fff", strokeWidth: 1, r: 5 }}
+                  activeDot={{ r: 7, stroke: "#ff6e61", strokeWidth: 2 }}
                   connectNulls={true}
                 />
               </LineChart>
